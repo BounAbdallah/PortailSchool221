@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySchool221 - Plateforme de Gestion Scolaire</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#407CEE',
+                        secondary: '#F7AE00'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #407CEE;
+            --secondary-color: #F7AE00;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(64, 124, 238, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #5a8df0);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 10px 0;
+        }
+
+        header.scrolled {
+            background: rgba(64, 124, 238, 0.95);
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--white);
+            text-decoration: none;
+            animation: pulse 2s infinite;
+        }
+
+        .logo .highlight {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn-demo {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-demo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(247, 174, 0, 0.3);
+        }
+
+        /* Hero Section - Version Vivante */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #5a8df0 50%, #6c5ce7 100%);
+            padding: 150px 0 100px;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Particules animées */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(247, 174, 0, 0.6);
+            border-radius: 50%;
+            animation: float-particles 6s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(5) {
+            width: 14px;
+            height: 14px;
+            top: 10%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        .particle:nth-child(6) {
+            width: 8px;
+            height: 8px;
+            top: 70%;
+            left: 60%;
+            animation-delay: 5s;
+        }
+
+        .particle:nth-child(7) {
+            width: 16px;
+            height: 16px;
+            top: 40%;
+            left: 30%;
+            animation-delay: 2.5s;
+        }
+
+        .particle:nth-child(8) {
+            width: 6px;
+            height: 6px;
+            top: 90%;
+            left: 90%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float-particles {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        /* Formes géométriques */
+        .geometric-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 20px;
+            background: linear-gradient(45deg, rgba(247, 174, 0, 0.1), rgba(255, 255, 255, 0.1));
+            animation: rotate-shapes 20s infinite linear;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 5s;
+            border-radius: 50%;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            right: 30%;
+            animation-delay: 10s;
+            transform: rotate(45deg);
+        }
+
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: 15s;
+            border-radius: 30px;
+        }
+
+        @keyframes rotate-shapes {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        /* Contenu Hero */
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(247, 174, 0, 0.2);
+            border: 1px solid var(--secondary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--secondary-color), #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .highlight-text {
+            color: var(--secondary-color);
+            position: relative;
+        }
+
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--secondary-color);
+            animation: underline-expand 2s ease-in-out infinite;
+        }
+
+        @keyframes underline-expand {
+            0%, 100% { width: 100%; }
+            50% { width: 120%; }
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            animation: fadeInLeft 1s ease 0.3s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInLeft 1s ease 0.6s both;
+        }
+
+        .stat-mini {
+            text-align: center;
+        }
+
+        .stat-mini .number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .stat-mini .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInLeft 1s ease 0.9s both;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons a {
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        /* Effet de brillance pour le bouton principal */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), #ffd700);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .btn-primary:hover::after {
+            animation: shine 0.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Amélioration du bouton secondaire */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            border-color: var(--white);
+            backdrop-filter: none;
+        }
+
+        .pulse-btn {
+            animation: pulse-glow 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pulse-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .pulse-btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 5px 15px rgba(247, 174, 0, 0.3), 0 0 0 0 rgba(247, 174, 0, 0.7);
+            }
+            70% {
+                box-shadow: 0 5px 15px rgba(247, 174, 0, 0.3), 0 0 0 10px rgba(247, 174, 0, 0);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(247, 174, 0, 0.3), 0 0 0 0 rgba(247, 174, 0, 0);
+            }
+        }
+
+        /* Section Visuelle */
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            animation: fadeInRight 1s ease 0.5s both;
+        }
+
+        .floating-dashboard {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            color: var(--dark-color);
+            width: 300px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .dots span:nth-child(1) { background: #ff5f56; }
+        .dots span:nth-child(2) { background: #ffbd2e; }
+        .dots span:nth-child(3) { background: #27ca3f; }
+
+        .title {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .metric-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .metric-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 75%;
+            border-radius: 4px;
+            animation: progress-animate 3s ease-in-out infinite;
+        }
+
+        @keyframes progress-animate {
+            0%, 100% { width: 75%; }
+            50% { width: 85%; }
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            color: var(--dark-color);
+            text-align: center;
+            width: 180px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .card-1 {
+            top: 10%;
+            right: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .card-2 {
+            bottom: 30%;
+            left: 0;
+            animation-delay: 1s;
+        }
+
+        .card-3 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 1.5s;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .floating-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .floating-card p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .notification-popup {
+            position: absolute;
+            bottom: 10%;
+            right: 20%;
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--dark-color);
+            animation: slide-in 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes slide-in {
+            0% { transform: translateX(100px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .notification-title {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .notification-text {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Responsive pour Hero */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 0 80px;
+                min-height: auto;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .hero-visual {
+                height: 300px;
+            }
+            
+            .floating-card {
+                width: 140px;
+                padding: 1rem;
+            }
+            
+            .floating-dashboard {
+                width: 250px;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Profiles Section */
+        .profiles {
+            padding: 100px 0;
+            background: var(--light-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: left 0.5s ease;
+        }
+
+        .profile-card:hover::before {
+            left: 0;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(64, 124, 238, 0.2);
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--white);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover .profile-icon {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .profile-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: var(--light-color);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .feature-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* FAQ Section avec Patterns Animés */
+        .faq {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Patterns animés en arrière-plan */
+        .faq::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(64, 124, 238, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(247, 174, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(64, 124, 238, 0.05) 0%, transparent 50%);
+            animation: pattern-move 20s ease-in-out infinite;
+        }
+
+        @keyframes pattern-move {
+            0%, 100% {
+                transform: translateX(0) translateY(0);
+            }
+            25% {
+                transform: translateX(20px) translateY(-10px);
+            }
+            50% {
+                transform: translateX(-10px) translateY(20px);
+            }
+            75% {
+                transform: translateX(15px) translateY(10px);
+            }
+        }
+
+        /* Patterns géométriques flottants */
+        .faq-patterns {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .pattern-element {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(64, 124, 238, 0.1), rgba(247, 174, 0, 0.1));
+            animation: float-pattern 15s infinite ease-in-out;
+        }
+
+        .pattern-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .pattern-element:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+            border-radius: 20%;
+        }
+
+        .pattern-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .pattern-element:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 6s;
+            border-radius: 30%;
+        }
+
+        .pattern-element:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            top: 50%;
+            left: 50%;
+            animation-delay: 8s;
+        }
+
+        .pattern-element:nth-child(6) {
+            width: 35px;
+            height: 35px;
+            top: 70%;
+            right: 30%;
+            animation-delay: 10s;
+            border-radius: 15%;
+        }
+
+        @keyframes float-pattern {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg) scale(0.9);
+                opacity: 0.8;
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg) scale(1.2);
+                opacity: 0.4;
+            }
+        }
+
+        /* Lignes ondulées animées */
+        .wave-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wave-line {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(64, 124, 238, 0.2), transparent);
+            animation: wave-move 8s infinite linear;
+        }
+
+        .wave-line:nth-child(1) {
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .wave-line:nth-child(2) {
+            top: 40%;
+            animation-delay: 2s;
+            background: linear-gradient(90deg, transparent, rgba(247, 174, 0, 0.2), transparent);
+        }
+
+        .wave-line:nth-child(3) {
+            top: 60%;
+            animation-delay: 4s;
+        }
+
+        .wave-line:nth-child(4) {
+            top: 80%;
+            animation-delay: 6s;
+            background: linear-gradient(90deg, transparent, rgba(247, 174, 0, 0.2), transparent);
+        }
+
+        @keyframes wave-move {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(50%);
+            }
+        }
+
+        .faq .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-content {
+            margin-top: 3rem;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .faq-left {
+            position: sticky;
+            top: 120px;
+        }
+
+        .faq-stats {
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(64, 124, 238, 0.1);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(64, 124, 238, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateX(15px) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(64, 124, 238, 0.15);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: var(--secondary-color);
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #27ca3f;
+            animation-delay: 0.4s;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: icon-shine 3s infinite;
+        }
+
+        @keyframes icon-shine {
+            0%, 100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: linear-gradient(135deg, var(--secondary-color), #ffd700);
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: linear-gradient(135deg, #27ca3f, #2ecc71);
+        }
+
+        .stat-info .stat-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-info .stat-label {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, var(--primary-color), #5a8df0);
+            padding: 2.5rem;
+            border-radius: 25px;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(64, 124, 238, 0.3);
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(247, 174, 0, 0.2) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+            animation: pulse 3s infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-card p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-contact {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(247, 174, 0, 0.4);
+        }
+
+        .faq-accordion {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px rgba(64, 124, 238, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-accordion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(64, 124, 238, 0.05), rgba(247, 174, 0, 0.05));
+            transition: width 0.4s ease;
+        }
+
+        .faq-item.active::before {
+            width: 100%;
+        }
+
+        .faq-item.active {
+            background: linear-gradient(135deg, rgba(64, 124, 238, 0.02), rgba(247, 174, 0, 0.02));
+        }
+
+        .faq-question {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .faq-question:hover {
+            background: rgba(64, 124, 238, 0.03);
+        }
+
+        .faq-question h3 {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin: 0;
+            flex: 1;
+            padding-right: 1.5rem;
+            font-weight: 600;
+        }
+
+        .faq-toggle {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .faq-item.active .faq-toggle::before {
+            left: 100%;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, var(--secondary-color), #ffd700);
+            box-shadow: 0 5px 15px rgba(247, 174, 0, 0.3);
+        }
+
+        .faq-toggle i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            background: rgba(64, 124, 238, 0.01);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 250px;
+            padding: 0 2rem 2rem;
+        }
+
+        .faq-answer p {
+            color: #666;
+            line-height: 1.8;
+            margin: 0;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.4s ease 0.1s;
+            font-size: 1.05rem;
+        }
+
+        .faq-item.active .faq-answer p {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Animations pour FAQ */
+        @keyframes faq-slide-in {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .faq-item {
+            animation: faq-slide-in 0.8s ease forwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
+        .faq-item:nth-child(5) { animation-delay: 0.5s; }
+        .faq-item:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Responsive FAQ */
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .faq-left {
+                position: static;
+            }
+            
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .contact-card {
+                margin-bottom: 2rem;
+            }
+            
+            .faq-question h3 {
+                font-size: 1.1rem;
+            }
+            
+            .faq-question {
+                padding: 1.5rem;
+            }
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: var(--light-color);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <nav class="container">
+            <a href="#" class="logo">My<span class="highlight">School</span>221</a>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#profils">Profils</a></li>
+                <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#demo" class="btn-demo">Demander une Démo</a>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="accueil">
+        <div class="particles-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="geometric-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="badge animate-bounce">
+                        <i class="fas fa-rocket"></i>
+                        Nouvelle Génération
+                    </div>
+                    <h1>
+                        Transformez votre <span class="gradient-text">École</span><br>
+                        avec <span class="highlight-text">MySchool221</span>
+                    </h1>
+                    <p class="hero-description">
+                        La plateforme intelligente qui révolutionne la gestion scolaire en Afrique. 
+                        Automatisation, collaboration et innovation au service de l'éducation.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-mini">
+                            <span class="number">50+</span>
+                            <span class="label">Écoles</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="number">10K+</span>
+                            <span class="label">Élèves</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="number">99%</span>
+                            <span class="label">Satisfaction</span>
+                        </div>
+                    </div>
+                    <!-- <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                       
+                        <button class="bg-[#407CEE] hover:bg-[#407CEE]/90 text-white text-xl px-10 py-4 rounded-lg hover:scale-105 transform transition-all duration-300 shadow-2xl flex items-center justify-center">
+                            <i data-lucide="zap" class="mr-3 w-6 h-6"></i>
+                            Commencer Maintenant
+                            <i data-lucide="arrow-right" class="ml-3 w-6 h-6"></i>
+                        </button>
+                       
+                        <button class="bg-[#F7AE00] hover:bg-[#F7AE00]/90 text-white text-xl px-10 py-4 rounded-lg hover:scale-105 transform transition-all duration-300 shadow-2xl flex items-center justify-center">
+                            <i data-lucide="play" class="mr-3 w-6 h-6"></i>
+                            Voir la Démo
+                        </button>
+                    </div> -->
+        
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="floating-dashboard">
+                        <div class="dashboard-header">
+                            <div class="dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <span class="title">MySchool221</span>
+                        </div>
+                        <div class="dashboard-content">
+                            <div class="metric-card">
+                                <i class="fas fa-users"></i>
+                                <div class="metric-info">
+                                    <span class="metric-number">1,247</span>
+                                    <span class="metric-label">Élèves Actifs</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-1">
+                        <div class="card-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4>Gestion Intelligente</h4>
+                        <p>Automatisation complète</p>
+                    </div>
+                    
+                    <div class="floating-card card-2">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Analytics Avancés</h4>
+                        <p>Suivi en temps réel</p>
+                    </div>
+                    
+                    <div class="floating-card card-3">
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Accès Mobile</h4>
+                        <p>Partout, tout le temps</p>
+                    </div>
+                    
+                    <div class="notification-popup">
+                        <div class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="notification-content">
+                            <span class="notification-title">Nouveau bulletin</span>
+                            <span class="notification-text">Marie Diop - Classe 6ème</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profiles Section -->
+    <section class="profiles animate-on-scroll" id="profils">
+        <div class="container">
+            <div class="section-header">
+                <h2>Une Solution pour Chaque Profil</h2>
+                <p>MySchool221 s'adapte aux besoins spécifiques de chaque utilisateur de votre établissement</p>
+            </div>
+            <div class="profiles-grid">
+                <div class="profile-card animate-on-scroll">
+                    <div class="profile-icon bg-[#407CEE]">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h3>Administration </h3>
+                    <p>Gérez votre établissement avec une vue d'ensemble complète</p>
+                    <ul class="features-list">
+                        <li>Gestion des inscriptions</li>
+                        <li>Suivi des paiements</li>
+                        <li>Emplois du temps</li>
+                        <li>Rapports et statistiques</li>
+                        <li>Gestion du personnel</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card animate-on-scroll">
+                    <div class="profile-icon bg-[#F7AE00]">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Professeurs</h3>
+                    <p>Simplifiez votre enseignement et le suivi pédagogique</p>
+                    <ul class="features-list">
+                        <li>Saisie des notes</li>
+                        <li>Création d'évaluations</li>
+                        <li>Suivi des absences</li>
+                        <li>Génération de bulletins</li>
+                        <li>Communication parents</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card animate-on-scroll">
+                    <div class="profile-icon bg-[#407CEE]">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Parents</h3>
+                    <p>Suivez la scolarité de vos enfants en temps réel</p>
+                    <ul class="features-list">
+                        <li>Suivi des résultats</li>
+                        <li>Consultation des bulletins</li>
+                        <li>Monitoring des absences</li>
+                        <li>Gestion des paiements</li>
+                        <li>Communication directe</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card animate-on-scroll">
+                    <div class="profile-icon bg-[#F7AE00]">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Élèves</h3>
+                    <p>Accédez facilement à toutes vos informations scolaires</p>
+                    <ul class="features-list">
+                        <li>Consultation des notes</li>
+                        <li>Emploi du temps</li>
+                        <li>Devoirs et évaluations</li>
+                        <li>Suivi de l'assiduité</li>
+                        <li>Ressources pédagogiques</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features animate-on-scroll" id="fonctionnalites">
+        <div class="container">
+            <div class="section-header">
+                <h2>Fonctionnalités Avancées</h2>
+                <p>Découvrez les outils puissants qui transformeront votre gestion scolaire</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Automatisation Intelligente</h3>
+                        <p>Automatisez les tâches répétitives et la génération de rapports pour gagner un temps précieux.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Suivi en Temps Réel</h3>
+                        <p>Accédez à des données actualisées instantanément pour une prise de décision éclairée.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Communication Centralisée</h3>
+                        <p>Facilitez les échanges entre tous les acteurs avec un système de communication intégré.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Sécurité Maximale</h3>
+                        <p>Protégez vos données sensibles avec nos protocoles de sécurité de niveau entreprise.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Accès Mobile</h3>
+                        <p>Utilisez la plateforme partout et à tout moment grâce à notre application mobile.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Personnalisation</h3>
+                        <p>Adaptez la plateforme aux spécificités de votre établissement avec nos options de configuration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section avec Patterns Animés -->
+    <section class="faq animate-on-scroll" id="faq">
+        <!-- Patterns animés en arrière-plan -->
+        <div class="faq-patterns">
+            <div class="pattern-element"></div>
+            <div class="pattern-element"></div>
+            <div class="pattern-element"></div>
+            <div class="pattern-element"></div>
+            <div class="pattern-element"></div>
+            <div class="pattern-element"></div>
+        </div>
+        
+        <!-- Lignes ondulées -->
+        <div class="wave-lines">
+            <div class="wave-line"></div>
+            <div class="wave-line"></div>
+            <div class="wave-line"></div>
+            <div class="wave-line"></div>
+        </div>
+        
+        <div class="container">
+            <div class="section-header">
+                <div class="badge animate-bounce">
+                    <i class="fas fa-question-circle"></i>
+                    Questions Fréquentes
+                </div>
+                <h2>Tout ce que vous devez savoir</h2>
+                <p>Trouvez rapidement les réponses à vos questions sur MySchool221</p>
+            </div>
+            
+            <div class="faq-content">
+                <div class="faq-grid">
+                    <div class="faq-left">
+                        <div class="faq-stats">
+                            <div class="stat-card animate-on-scroll">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number">24/7</span>
+                                    <span class="stat-label">Support Client</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card animate-on-scroll">
+                                <div class="stat-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number">48h</span>
+                                    <span class="stat-label">Mise en Route</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card animate-on-scroll">
+                                <div class="stat-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">Sécurisé</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card animate-on-scroll">
+                            <div class="contact-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3>Besoin d'aide ?</h3>
+                            <p>Notre équipe est là pour vous accompagner dans votre transformation digitale.</p>
+                            <a href="#contact" class="btn-contact">
+                                <i class="fas fa-phone"></i>
+                                Nous Contacter
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-right">
+                        <div class="faq-accordion">
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>Combien de temps faut-il pour mettre en place MySchool221 ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>La mise en place de MySchool221 est rapide et efficace. En moyenne, il faut 48 heures pour configurer complètement votre plateforme selon vos besoins spécifiques. Notre équipe vous accompagne à chaque étape pour assurer une transition en douceur.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>MySchool221 est-il compatible avec nos systèmes existants ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Absolument ! MySchool221 est conçu pour s'intégrer facilement avec vos systèmes existants. Nous proposons des API robustes et des outils d'importation pour migrer vos données en toute sécurité sans perte d'information.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>Quels sont les coûts associés à MySchool221 ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Nos tarifs sont flexibles et s'adaptent à la taille de votre établissement. Nous proposons plusieurs formules : Starter (jusqu'à 200 élèves), Professional (jusqu'à 1000 élèves) et Enterprise (illimité). Contactez-nous pour un devis personnalisé.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>La formation du personnel est-elle incluse ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Oui ! Nous incluons une formation complète pour votre équipe. Cela comprend des sessions en ligne, des guides détaillés, et un support dédié pendant les premiers mois d'utilisation pour garantir une adoption réussie.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>Mes données sont-elles sécurisées ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>La sécurité est notre priorité absolue. Nous utilisons un chiffrement de niveau bancaire, des sauvegardes automatiques quotidiennes, et nos serveurs sont hébergés dans des centres de données certifiés ISO 27001. Vos données sont protégées 24h/24.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item animate-on-scroll">
+                                <div class="faq-question">
+                                    <h3>Puis-je essayer MySchool221 avant de m'engager ?</h3>
+                                    <div class="faq-toggle">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Bien sûr ! Nous offrons une période d'essai gratuite de 30 jours avec accès complet à toutes les fonctionnalités. Vous pouvez également demander une démonstration personnalisée pour voir comment MySchool221 s'adapte à vos besoins spécifiques.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 animate-on-scroll">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Prêt à Révolutionner Votre Gestion Scolaire ?
+            </h2>
+            <p class="text-xl text-gray-600 mb-12">
+                Rejoignez des centaines d'établissements qui ont déjà fait confiance à MySchool221.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                
+                <!-- BOUTON COULEUR UNIE #F7AE00 -->
+                <a href="contact.html" class="bg-[#F7AE00] hover:bg-[#F7AE00]/90 text-white text-lg px-8 py-4 rounded-lg hover:scale-105 transform transition-all duration-300 shadow-lg flex items-center justify-center">
+                    <!-- <i data-lucide="calendar" class="mr-2 w-5 h-5"></i> -->
+                    Planifier une Démo
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MySchool221</h3>
+                    <p>La plateforme de gestion scolaire nouvelle génération qui révolutionne l'éducation en Afrique.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens Rapides</h3>
+                    <p><a href="#accueil">Accueil</a></p>
+                    <p><a href="#profils">Profils</a></p>
+                    <p><a href="#fonctionnalites">Fonctionnalités</a></p>
+                    <p><a href="#demo">Démo</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: contact@myschool221.com</p>
+                    <p>Téléphone: +221 XX XXX XX XX</p>
+                    <p>Adresse: Dakar, Sénégal</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Suivez-nous</h3>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">Twitter</a></p>
+                    <p><a href="#">LinkedIn</a></p>
+                    <p><a href="#">Instagram</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MySchool221. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', function() {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Fermer tous les autres items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Ouvrir l'item cliqué s'il n'était pas déjà ouvert
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Animation au scroll pour les éléments FAQ
+        const faqObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.style.animationPlayState = 'paused';
+            faqObserver.observe(item);
+        });
+    </script>
+</body>
+</html>
+
