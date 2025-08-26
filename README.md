@@ -27,12 +27,6 @@ MySchool221 est une plateforme moderne de gestion scolaire conçue pour l'Afriqu
 - Animations CSS + JavaScript
 - Design responsive mobile-first
 
-## 🚀 Installation
-
-1. Clonez le repository
-2. Ouvrez `index.html` dans votre navigateur
-3. Ou lancez un serveur local : `npx live-server`
-
 ## 📱 Responsive
 
 - Mobile : ≤ 480px
@@ -50,8 +44,8 @@ MySchool221 est une plateforme moderne de gestion scolaire conçue pour l'Afriqu
 ## 📞 Contact
 
 - **Email** : contact@myschool221.com
-- **Téléphone** : +221 77 123 45 67
-- **Adresse** : Almadies, Dakar, Sénégal
+- **Téléphone** : +221 78 186 02 90
+- **Adresse** : Front de terre, Dakar, Sénégal
 
 ---
 
