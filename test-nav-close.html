@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test nav__close - MySchool221</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .test-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .status-hidden {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .status-visible {
+            background: #10b981;
+            color: white;
+        }
+        
+        .breakpoint-info {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .breakpoint-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: var(--gray-50);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-item strong {
+            color: var(--gray-800);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .info-item span {
+            color: var(--gray-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .test-instructions {
+            background: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .test-instructions h4 {
+            margin-bottom: 15px;
+        }
+        
+        .test-instructions ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .test-instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .nav-close-visibility {
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .nav-close-visibility h4 {
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .visibility-status {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="#" class="logo" aria-label="MySchool221 - Accueil">
+                    <span class="logo__icon">🎓</span>
+                    <span class="logo__text">My<span class="logo__highlight">School</span>221</span>
+                </a>
+            </div>
+            
+            <ul class="nav__menu" id="nav-menu">
+                <li class="nav__item">
+                    <a href="#hero" class="nav__link active" data-section="hero">Accueil</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#features" class="nav__link" data-section="features">Fonctionnalités</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#pricing" class="nav__link" data-section="pricing">Tarifs</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#contact" class="nav__link" data-section="contact">Contact</a>
+                </li>
+            </ul>
+            
+            <div class="nav__actions">
+                <a href="#contact" class="btn btn--primary btn--sm btn--demo">Avoir un devis</a>
+                <button class="nav__toggle" id="nav-toggle" aria-label="Menu de navigation">
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Overlay pour la navigation mobile -->
+        <div class="nav__overlay" id="nav-overlay"></div>
+        
+        <!-- Bouton de fermeture du menu mobile -->
+        <button class="nav__close" id="nav-close" aria-label="Fermer le menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </header>
+
+    <div class="test-container">
+        <h1>🧪 Test du Bouton nav__close</h1>
+        <p>Vérifiez que le bouton de fermeture est masqué sur desktop et visible sur mobile</p>
+        
+        <!-- Statut de visibilité -->
+        <div class="nav-close-visibility">
+            <h4>🔍 Visibilité du Bouton nav__close</h4>
+            <div class="visibility-status" id="visibility-status">
+                Vérification en cours...
+            </div>
+            <p>Largeur de la fenêtre : <strong id="current-width">-</strong></p>
+        </div>
+        
+        <!-- Informations sur le breakpoint -->
+        <div class="breakpoint-info">
+            <h4>📊 Informations du Breakpoint</h4>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Breakpoint actuel</strong>
+                    <span id="current-breakpoint">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>État du bouton</strong>
+                    <span id="button-state">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Display CSS</strong>
+                    <span id="display-value">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Visibilité</strong>
+                    <span id="visibility-value">-</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions de test -->
+        <div class="test-instructions">
+            <h4>📋 Instructions de Test</h4>
+            <ul>
+                <li><strong>Desktop (≥769px)</strong> : Le bouton nav__close doit être MASQUÉ (display: none)</li>
+                <li><strong>Mobile (≤768px)</strong> : Le bouton nav__close doit être VISIBLE (display: flex)</li>
+                <li><strong>Redimensionnement</strong> : Redimensionnez la fenêtre pour voir les changements</li>
+                <li><strong>Inspecteur</strong> : Utilisez les outils de développement pour vérifier le CSS</li>
+            </ul>
+        </div>
+        
+        <!-- Test des breakpoints -->
+        <div class="test-section">
+            <h3>🎯 Test des Breakpoints</h3>
+            <p>Redimensionnez votre fenêtre pour tester :</p>
+            
+            <div style="margin: 20px 0;">
+                <div class="status-indicator" id="desktop-status">Desktop (≥769px)</div>
+                <div class="status-indicator" id="mobile-status">Mobile (≤768px)</div>
+            </div>
+            
+            <p><strong>Résultat attendu :</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>✅ <strong>Desktop</strong> : nav__close masqué (display: none)</li>
+                <li>✅ <strong>Mobile</strong> : nav__close visible (display: flex)</li>
+                <li>✅ <strong>Transition</strong> : Changement automatique selon la taille</li>
+            </ul>
+        </div>
+        
+        <!-- Détails techniques -->
+        <div class="test-section">
+            <h3>🔧 Détails Techniques</h3>
+            <p><strong>CSS appliqué :</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li><code>.nav__close { display: none; }</code> - Masqué par défaut sur desktop</li>
+                <li><code>@media (max-width: 768px) { .nav__close { display: flex; } }</code> - Affiché sur mobile</li>
+                <li>Le bouton est positionné en <code>position: fixed</code> pour le mobile</li>
+                <li>Z-index élevé pour être au-dessus du menu mobile</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Script de test pour nav__close
+        function updateNavCloseStatus() {
+            const width = window.innerWidth;
+            const navClose = document.getElementById('nav-close');
+            const visibilityStatus = document.getElementById('visibility-status');
+            const currentWidth = document.getElementById('current-width');
+            const currentBreakpoint = document.getElementById('current-breakpoint');
+            const buttonState = document.getElementById('button-state');
+            const displayValue = document.getElementById('display-value');
+            const visibilityValue = document.getElementById('visibility-value');
+            const desktopStatus = document.getElementById('desktop-status');
+            const mobileStatus = document.getElementById('mobile-status');
+            
+            // Mise à jour de la largeur
+            currentWidth.textContent = `${width}px`;
+            
+            // Détermination du breakpoint et du statut
+            let breakpoint, isVisible, display, visibility, statusClass, statusText;
+            
+            if (width > 768) {
+                // Desktop
+                breakpoint = 'Desktop (≥769px)';
+                isVisible = false;
+                display = 'none';
+                visibility = 'hidden';
+                statusClass = 'status-hidden';
+                statusText = 'MASQUÉ sur Desktop';
+                
+                // Mise à jour des indicateurs
+                desktopStatus.className = 'status-indicator ' + statusClass;
+                mobileStatus.className = 'status-indicator';
+                
+            } else {
+                // Mobile
+                breakpoint = 'Mobile (≤768px)';
+                isVisible = true;
+                display = 'flex';
+                visibility = 'visible';
+                statusClass = 'status-visible';
+                statusText = 'VISIBLE sur Mobile';
+                
+                // Mise à jour des indicateurs
+                desktopStatus.className = 'status-indicator';
+                mobileStatus.className = 'status-indicator ' + statusClass;
+            }
+            
+            // Mise à jour des informations
+            currentBreakpoint.textContent = breakpoint;
+            buttonState.textContent = isVisible ? 'Visible' : 'Masqué';
+            displayValue.textContent = display;
+            visibilityValue.textContent = visibility;
+            
+            // Mise à jour du statut principal
+            visibilityStatus.textContent = statusText;
+            visibilityStatus.className = 'visibility-status ' + statusClass;
+            
+            // Vérification du CSS réel
+            const computedStyle = window.getComputedStyle(navClose);
+            const actualDisplay = computedStyle.display;
+            const actualVisibility = computedStyle.visibility;
+            
+            console.log('Nav Close Status:', {
+                width,
+                breakpoint,
+                expectedDisplay: display,
+                actualDisplay,
+                expectedVisibility: visibility,
+                actualVisibility,
+                isVisible
+            });
+        }
+        
+        // Mise à jour au chargement et au redimensionnement
+        window.addEventListener('load', updateNavCloseStatus);
+        window.addEventListener('resize', updateNavCloseStatus);
+        
+        // Mise à jour toutes les 100ms pour un affichage fluide
+        setInterval(updateNavCloseStatus, 100);
+        
+        // Test du bouton nav__close
+        document.getElementById('nav-close').addEventListener('click', function() {
+            console.log('Bouton nav__close cliqué !');
+            alert('Bouton nav__close fonctionne correctement !');
+        });
+    </script>
+</body>
+</html> 

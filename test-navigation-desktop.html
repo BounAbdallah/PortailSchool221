@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Navigation Desktop - MySchool221</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    
+    <style>
+        /* Styles de test pour visualiser la navigation */
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .test-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .test-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: var(--font-size-2xl);
+        }
+        
+        .breakpoint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .breakpoint-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--gray-300);
+            text-align: center;
+        }
+        
+        .breakpoint-card.active {
+            border-color: var(--primary-color);
+            background: rgba(64, 124, 238, 0.05);
+        }
+        
+        .breakpoint-card h4 {
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .breakpoint-card .size {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            margin-bottom: 10px;
+        }
+        
+        .breakpoint-card .features {
+            font-size: var(--font-size-sm);
+            color: var(--gray-700);
+            line-height: 1.4;
+        }
+        
+        .navigation-info {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .navigation-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: var(--gray-50);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-item strong {
+            color: var(--gray-800);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .info-item span {
+            color: var(--gray-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .test-instructions {
+            background: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .test-instructions h4 {
+            margin-bottom: 15px;
+        }
+        
+        .test-instructions ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .test-instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="#" class="logo" aria-label="MySchool221 - Accueil">
+                    <span class="logo__icon">🎓</span>
+                    <span class="logo__text">My<span class="logo__highlight">School</span>221</span>
+                </a>
+            </div>
+            
+            <ul class="nav__menu" id="nav-menu">
+                <li class="nav__item">
+                    <a href="#hero" class="nav__link active" data-section="hero">Accueil</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#features" class="nav__link" data-section="features">Fonctionnalités</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#profiles" class="nav__link" data-section="profiles">Profils</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#pricing" class="nav__link" data-section="pricing">Tarifs</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#testimonials" class="nav__link" data-section="testimonials">Témoignages</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#faq" class="nav__link" data-section="faq">FAQ</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#contact" class="nav__link" data-section="contact">Contact</a>
+                </li>
+            </ul>
+            
+            <div class="nav__actions">
+                <a href="#contact" class="btn btn--primary btn--sm btn--demo">Avoir un devis</a>
+                <button class="nav__toggle" id="nav-toggle" aria-label="Menu de navigation">
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Overlay pour la navigation mobile -->
+        <div class="nav__overlay" id="nav-overlay"></div>
+        
+        <!-- Bouton de fermeture du menu mobile -->
+        <button class="nav__close" id="nav-close" aria-label="Fermer le menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </header>
+
+    <!-- Contenu de test -->
+    <div class="test-header">
+        <h1>🧪 Test de la Navigation Desktop</h1>
+        <p>Vérifiez que la navigation fonctionne parfaitement sur tous les écrans</p>
+    </div>
+
+    <div class="test-content">
+        <!-- Informations sur la navigation actuelle -->
+        <div class="navigation-info">
+            <h4>📊 Informations de la Navigation</h4>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Largeur de la fenêtre</strong>
+                    <span id="window-width">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Breakpoint actuel</strong>
+                    <span id="current-breakpoint">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Espacement des liens</strong>
+                    <span id="link-gap">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Taille des liens</strong>
+                    <span id="link-size">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakpoints -->
+        <div class="test-section">
+            <h3>🎯 Breakpoints de Navigation</h3>
+            <div class="breakpoint-grid">
+                <div class="breakpoint-card" id="breakpoint-large">
+                    <h4>Desktop Large</h4>
+                    <div class="size">≥ 1400px</div>
+                    <div class="features">
+                        Largeur: 1600px<br>
+                        Espacement: 3rem<br>
+                        Taille: Large
+                    </div>
+                </div>
+                <div class="breakpoint-card" id="breakpoint-desktop">
+                    <h4>Desktop Standard</h4>
+                    <div class="size">1025px - 1399px</div>
+                    <div class="features">
+                        Largeur: 1200px<br>
+                        Espacement: 2rem<br>
+                        Taille: Standard
+                    </div>
+                </div>
+                <div class="breakpoint-card" id="breakpoint-tablet">
+                    <h4>Tablette Large</h4>
+                    <div class="size">769px - 1024px</div>
+                    <div class="features">
+                        Largeur: 100%<br>
+                        Espacement: 1rem<br>
+                        Taille: Petite
+                    </div>
+                </div>
+                <div class="breakpoint-card" id="breakpoint-mobile">
+                    <h4>Mobile</h4>
+                    <div class="size">≤ 768px</div>
+                    <div class="features">
+                        Menu hamburger<br>
+                        Navigation plein écran<br>
+                        Bouton fermeture
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions de test -->
+        <div class="test-instructions">
+            <h4>📋 Instructions de Test</h4>
+            <ul>
+                <li><strong>Desktop Large (≥1400px)</strong> : Vérifiez l'espacement maximal et la largeur 1600px</li>
+                <li><strong>Desktop Standard (1025px-1399px)</strong> : Vérifiez l'espacement optimal et la largeur 1200px</li>
+                <li><strong>Tablette Large (769px-1024px)</strong> : Vérifiez l'espacement compact et la largeur 100%</li>
+                <li><strong>Mobile (≤768px)</strong> : Vérifiez l'activation du menu hamburger</li>
+                <li><strong>Navigation active</strong> : Cliquez sur les liens pour tester les états actifs</li>
+                <li><strong>Hover effects</strong> : Survolez les liens pour tester les animations</li>
+            </ul>
+        </div>
+
+        <!-- Test des interactions -->
+        <div class="test-section">
+            <h3>🖱️ Test des Interactions</h3>
+            <p>Cliquez sur les liens de navigation pour tester :</p>
+            <ul style="text-align: left; max-width: 600px; margin: 20px auto;">
+                <li>✅ Changement d'état actif</li>
+                <li>✅ Animation de la ligne sous le lien</li>
+                <li>✅ Effet de survol avec translation</li>
+                <li>✅ Transitions fluides</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Script de test pour la navigation desktop
+        function updateNavigationInfo() {
+            const width = window.innerWidth;
+            const widthElement = document.getElementById('window-width');
+            const breakpointElement = document.getElementById('current-breakpoint');
+            const gapElement = document.getElementById('link-gap');
+            const sizeElement = document.getElementById('link-size');
+            
+            // Mise à jour de la largeur
+            widthElement.textContent = `${width}px`;
+            
+            // Détermination du breakpoint
+            let breakpoint, gap, size;
+            
+            if (width >= 1400) {
+                breakpoint = 'Desktop Large';
+                gap = '3rem (48px)';
+                size = 'Large (1.125rem)';
+                updateBreakpointCards('breakpoint-large');
+            } else if (width >= 1025) {
+                breakpoint = 'Desktop Standard';
+                gap = '2rem (32px)';
+                size = 'Standard (1rem)';
+                updateBreakpointCards('breakpoint-desktop');
+            } else if (width >= 769) {
+                breakpoint = 'Tablette Large';
+                gap = '1rem (16px)';
+                size = 'Petite (0.875rem)';
+                updateBreakpointCards('breakpoint-tablet');
+            } else {
+                breakpoint = 'Mobile';
+                gap = 'Menu hamburger';
+                size = 'Standard (1rem)';
+                updateBreakpointCards('breakpoint-mobile');
+            }
+            
+            breakpointElement.textContent = breakpoint;
+            gapElement.textContent = gap;
+            sizeElement.textContent = size;
+        }
+        
+        function updateBreakpointCards(activeId) {
+            // Retirer la classe active de toutes les cartes
+            document.querySelectorAll('.breakpoint-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Ajouter la classe active à la carte correspondante
+            const activeCard = document.getElementById(activeId);
+            if (activeCard) {
+                activeCard.classList.add('active');
+            }
+        }
+        
+        // Test de la navigation active
+        document.querySelectorAll('.nav__link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Retirer la classe active de tous les liens
+                document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active'));
+                
+                // Ajouter la classe active au lien cliqué
+                this.classList.add('active');
+                
+                console.log('Navigation cliquée:', this.textContent);
+                
+                // Afficher une notification
+                showNotification(`Lien "${this.textContent}" activé`);
+            });
+        });
+        
+        function showNotification(message) {
+            // Créer une notification temporaire
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--primary-color);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer après 2 secondes
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+        
+        // Mettre à jour les informations au chargement et au redimensionnement
+        window.addEventListener('load', updateNavigationInfo);
+        window.addEventListener('resize', updateNavigationInfo);
+        
+        // Mise à jour toutes les 100ms pour un affichage fluide
+        setInterval(updateNavigationInfo, 100);
+    </script>
+</body>
+</html> 
